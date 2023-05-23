@@ -1,0 +1,60 @@
+{% load static %}
+{% load store_tag %}
+{% block header %}
+<nav class="navbar navbar-pasific navbar-mp megamenu navbar-fixed-top bb-solid-1-red">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <img src="{% static 'store/img/logo/png-transparent.png' %}" alt="logo">
+                store
+            </a>
+        </div>
+
+        <div class="navbar-collapse collapse navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown megamenu-fw has-dropdown-menu"><a href="/" data-toggle="dropdown"
+                                                                      class="dropdown-toggle color-light">Home </a>
+                </li>
+
+                <li class="dropdown megamenu-fw"><a href="#" data-toggle="dropdown" class="dropdown-toggle color-light">Contact </a>
+                </li>
+
+                <li class="dropdown"><a href="/store" data-toggle="dropdown"
+                                        class="dropdown-toggle color-light">Категории </a>
+                    <ul class="dropdown-menu" role="menu">
+
+                    </ul>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search fa-fw"></i></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<div id="searchModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-gray">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title text-center"><i class="fa fa-search fa-fw"></i> Search here</h5>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="inline-form">
+                    <input type="text" class="modal-search-input" autofocus>
+                </form>
+            </div>
+            <div class="modal-footer bg-gray">
+                <span class="text-center"><a href="#" class="color-dark">Advanced Search</a></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock header %}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>online_store</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta charset="utf-8">
+    <meta name="author" content="Harry Boo">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <!-- Load Core CSS
+    =====================================-->
+    <link rel="stylesheet" href="{% static 'store/css/core/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/core/animate.min.css' %}">
+
+    <!-- Load Main CSS
+    =====================================-->
+    <link rel="stylesheet" href="{% static 'store/css/main/main.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/main/setting.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/main/hover.css' %}">
+
+    <!-- Load Magnific Popup CSS
+    =====================================-->
+    <link rel="stylesheet" href="{% static 'store/css/magnific/magic.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/magnific/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/magnific/magnific-popup-zoom-gallery.css' %}">
+
+    <!-- Load OWL Carousel CSS
+    =====================================-->
+    <link rel="stylesheet" href="{% static 'store/css/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/owl-carousel/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/owl-carousel/owl.transitions.css' %}">
+
+    <!-- Load Color CSS - Please uncomment to apply the color.
+    =====================================
+    <link rel="stylesheet" href="assets/css/color/blue.css">
+    <link rel="stylesheet" href="assets/css/color/brown.css">
+    <link rel="stylesheet" href="assets/css/color/cyan.css">
+    <link rel="stylesheet" href="assets/css/color/dark.css">
+    <link rel="stylesheet" href="assets/css/color/green.css">
+    <link rel="stylesheet" href="assets/css/color/orange.css">
+    <link rel="stylesheet" href="assets/css/color/purple.css">
+    <link rel="stylesheet" href="assets/css/color/pink.css">
+    <link rel="stylesheet" href="assets/css/color/red.css">
+    <link rel="stylesheet" href="assets/css/color/yellow.css">-->
+    <link rel="stylesheet" href="{% static 'store/css/color/pasific.css' %}">
+
+    <!-- Load Fontbase Icons - Please Uncomment to use linea icons
+    =====================================
+    <link rel="stylesheet" href="assets/css/icon/linea-arrows-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-basic-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-basic-elaboration-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-ecommerce-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-music-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-software-10.css">
+    <link rel="stylesheet" href="assets/css/icon/linea-weather-10.css">-->
+    <link rel="stylesheet" href="{% static 'store/css/icon/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/icon/et-line-font.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/demo.css' %}">
+
+    <!-- Load JS
+    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    WARNING: Respond.js doesn't work if you view the page via file://
+    =====================================-->
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar" data-offset="100">
+
+<!-- Page Loader
+===================================== -->
+<div id="pageloader">
+    <div class="loader-item">
+        <img src="{% static 'store/img/other/puff.svg' %}" alt="page loader">
+    </div>
+</div>
+
+<a href="#page-top" class="go-to-top">
+    <i class="fa fa-long-arrow-up"></i>
+</a>
+
+{% include 'include/header.html' %}
+
+{% block content %}
+{% endblock content %}
+
+<!-- JQuery Core
+        =====================================-->
+<script src="{% static 'store/js/core/jquery.min.js' %}"></script>
+<script src="{% static 'store/js/core/bootstrap.min.js' %}"></script>
+
+<!-- Magnific Popup
+=====================================-->
+<script src="{% static 'store/js/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'store/js/magnific-popup/magnific-popup-zoom-gallery.js' %}"></script>
+
+<!-- Progress Bars
+=====================================-->
+<script src="{% static 'store/js/progress-bar/bootstrap-progressbar.js' %}"></script>
+<script src="{% static 'store/js/progress-bar/bootstrap-progressbar-main.js' %}"></script>
+
+<!-- JQuery Main
+=====================================-->
+<script src="{% static 'store/js/main/jquery.appear.js' %}"></script>
+<script src="{% static 'store/js/main/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'store/js/main/parallax.min.js' %}"></script>
+<script src="{% static 'store/js/main/jquery.countTo.js' %}"></script>
+<script src="{% static 'store/js/main/owl.carousel.min.js' %}"></script>
+<script src="{% static 'store/js/main/jquery.sticky.js' %}"></script>
+<script src="{% static 'store/js/main/ion.rangeSlider.min.js' %}"></script>
+<script src="{% static 'store/js/main/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'store/js/main/main.js' %}"></script>
+
+
+<!-- ElevateZoom
+=====================================-->
+<script src="{% static 'store/js/elevatezoom/jquery.elevateZoom-3.0.8.min.js' %}"></script>
+
+<!-- Custom Script for This Page Only
+=====================================-->
+<script>
+            $("#zoom_01").elevateZoom({gallery:'shop-item-detail-photo-gallery', cursor: 'pointer', galleryActiveClass: 'active', imageCrossfade: true, loadingIcon: '#'});
+            $("#zoom_01").elevateZoom({
+                zoomType    : "inner",
+                cursor      : "crosshair"
+            });
+
+</script>
+
+<script src="{% static 'store/js/scripts.js' %}"></script>
+
+<script src="http://twitter.github.io/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'store/js/main.js' %}"></script>
+</body>
+</html>
+{% include 'include/footer.html' %}

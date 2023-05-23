@@ -1,0 +1,605 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<header class="pt100 pb100 parallax-window-2" data-parallax="scroll" data-speed="0.5"
+        data-image-src="{% static 'store/img/bg/banner.jpg' %}" data-positionY="1000">
+    <div class="intro-body text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pt50">
+                    <h1 class="brand-heading font-montserrat text-uppercase color-light" data-in-effect="fadeInDown">
+                        Worldwide Clients</h1>
+                    <h4 class="brand-heading font-montserrat text-uppercase color-light alpha8"
+                        data-in-effect="fadeInDown">Trusted by World Class Companies</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Shop Area
+===================================== -->
+<div id="shop" class="bg-light pt75 pb75">
+
+    <div id="shop-item-details" class="container">
+
+        <div class="col-md-9">
+            <div class="row">
+
+                <!-- Item Photo
+                ===================================== -->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="shop-item-detail-photo center-block mb25">
+                        <img id="zoom_01" class="shop-item-detail-photo-active img-responsive" alt="photo item active"
+                             src="{{ product.poster.url }}"
+                             data-zoom-image="{{ product.poster.url }}"/>
+
+                        <div id="shop-item-detail-photo-gallery">
+
+                            {% for image in product.productshots_set.all %}
+                            <a href="#" data-image="{{ image.image.url }}"
+                               data-zoom-image="{{ image.image.url }}">
+                                <img src="{{ image.image.url }}" class="shop-item-detail-photo-thumbnail"
+                                 alt="photo">
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Products Summary
+                ===================================== -->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="shop-item-detail-description ml-20">
+
+                        <!-- Item Title
+                        ===================================== -->
+                        <h3>{{ product.title }}</h3>
+
+                        <!-- item No
+                        ===================================== -->
+                        <div class="shop-item-sku mt20 pt10 bt-dotted-1">
+                            Item No: <span class="color-black strong">{{ product.url }}</span>
+                        </div>
+
+                        <!-- Item Availability
+                        ===================================== -->
+                        <div class="shop-item-available mt5">
+                            Availability: <span class="color-green strong">{{ product.available }}</span>
+                        </div>
+
+                        <!-- Item Price
+                        ===================================== -->
+                        <div class="shop-item-detail-price mt10 bt-dotted-1">
+                            <ins><span class="amount">{{ product.price }}сом</span></ins>
+
+                        </div>
+
+                        <!-- Item Reviews
+                        ===================================== -->
+                        <div class="shop-item-review mt10 pt10 bt-dotted-1">
+                            <a href="#" class="mr10">
+                                <i class="fa fa-star color-yellow"></i>
+                                <i class="fa fa-star color-yellow"></i>
+                                <i class="fa fa-star color-yellow"></i>
+                                <i class="fa fa-star color-yellow"></i>
+                                <i class="fa fa-star-half-o color-yellow"></i>
+                            </a>
+                            275 Reviews <a href="#" class="ml10"><i class="fa fa-pencil mr5"></i>Add your review</a>
+                        </div>
+
+                        <!-- Item Description
+                        ===================================== -->
+                        <div class="shop-item-detail-desc mt10 pt10 bt-dotted-1">
+                            <p>
+                                {{ product.characteristic }}
+                            </p>
+                        </div>
+
+                        <!-- Item Quantity, Size, & Color
+                        ===================================== -->
+                        <form class="ml10">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 pt10 bt-dotted-1">
+                                    <div class="pull-left ml-15">
+                                        <label>Qty:</label>
+                                        <input type="number" min="0"
+                                               class="form-control input-md input-rounded shop-item-quantity pull-left mr10"
+                                               value="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 xol-xs-12 mt10 pt10 bt-dotted-1">
+                                    <a class="button button-md button-pasific hover-icon-wobble-horizontal ml-15">Add To
+                                        Cart<i class="fa fa-shopping-basket"></i></a>
+                                    <a class="button-o button-md button-green hover-bounce-to-right">Add To Wishlist</a>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <!-- Item Social Sharing
+                        ===================================== -->
+                        <div class="shop-item-detail-cat mt10 pt10 bt-dotted-1">
+                            Shares:
+                            <a href="#"><i class="fa fa-facebook-official mr5"></i></a>
+                            <a href="#"><i class="fa fa-twitter mr5"></i></a>
+                            <a href="#"><i class="fa fa-linkedin mr5"></i></a>
+                            <a href="#"><i class="fa fa-pinterest mr5"></i></a>
+                            <a href="#"><i class="fa fa-google-plus mr5"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- row end -->
+
+            <!-- Tab Content
+            ===================================== -->
+            <div class="row mt25">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+
+                        <li><a data-toggle="tab" href="#shop_item_others" class="text-uppercase">Описание</a></li>
+                        <li><a data-toggle="tab" href="#shop_item_reviews" class="text-uppercase">Отзывы</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- tab content item description start -->
+                        <div id="shop_item_description" class="tab-pane fade in active">
+                            <h4>Описание товара</h4>
+                            <p>
+                                {{ product.description }}
+                            </p>
+
+                        </div>
+                        <!-- tab content item description end -->
+
+
+                        <!-- tab content reviews start -->
+                        <div id="shop_item_reviews" class="tab-pane fade">
+                            <div class="row bb-solid-1 mb25">
+                                <div class="col-md-8 col-sm-6 col-xs-6">
+                                    <h4 class="pb10">Customers Reviews<small>750 Reviews</small></h4>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 text-right pt25">
+                                    <a href="#" class="mr10">
+                                        <i class="fa fa-star fa-2x color-yellow"></i>
+                                        <i class="fa fa-star fa-2x color-yellow"></i>
+                                        <i class="fa fa-star fa-2x color-yellow"></i>
+                                        <i class="fa fa-star fa-2x color-yellow"></i>
+                                        <i class="fa fa-star-half-o fa-2x color-yellow"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Rating Start -->
+                            <div id="progressBar1" class="row">
+                                <div class="col-md-2 col-sm-4 col-xs-6">
+                                    <h5>5 Star <span class="color-black alpha5">(570)</span></h5>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-yellow" role="progressbar"
+                                             data-transitiongoal="90"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-4 col-xs-6">
+                                    <h5>4 Star <span class="color-black alpha5">(70)</span></h5>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-yellow" role="progressbar"
+                                             data-transitiongoal="80"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-4 col-xs-6">
+                                    <h5>3 Star <span class="color-black alpha5">(50)</span></h5>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-yellow" role="progressbar"
+                                             data-transitiongoal="50"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-4 col-xs-6">
+                                    <h5>2 Star <span class="color-black alpha5">(30)</span></h5>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-yellow" role="progressbar"
+                                             data-transitiongoal="30"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-4 col-xs-6">
+                                    <h5>1 Star <span class="color-black alpha5">(5)</span></h5>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-yellow" role="progressbar"
+                                             data-transitiongoal="10"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 mt5">
+                                    <a class="button button-md button-blue hover-icon-wobble-horizontal ml-20 pull-right">Add
+                                        Your Review</a>
+                                </div>
+
+                            </div>
+                            <!-- Rating End -->
+
+                            <div class="row mt25">
+
+                                <!-- Review Start -->
+                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
+                                    <img src="assets/img/other/photo-2.jpg" class="img-thumbnail pull-left mr20"
+                                         alt="image">
+                                    <a href="#" class="mr10 mb10">
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star-half-o color-yellow"></i>
+                                    </a>
+                                    <br>
+                                    <div class="strong mt10">John Boo</div>
+                                    Jan. 20 2016, 10:00 PM
+                                    <div class="">&nbsp;</div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
+                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
+                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
+                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
+                                    </p>
+                                </div>
+                                <!-- Review End -->
+
+                                <!-- Review Start -->
+                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
+                                    <img src="assets/img/other/photo-1.jpg" class="img-thumbnail pull-left mr20"
+                                         alt="image">
+                                    <a href="#" class="mr10 mb10">
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star-half-o color-yellow"></i>
+                                    </a>
+                                    <br>
+                                    <div class="strong mt10">John Boo</div>
+                                    Jan. 20 2016, 10:00 PM
+                                    <div class="">&nbsp;</div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
+                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
+                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
+                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
+                                    </p>
+                                </div>
+                                <!-- Review End -->
+
+                                <!-- Review Start -->
+                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
+                                    <img src="assets/img/other/photo-4.jpg" class="img-thumbnail pull-left mr20"
+                                         alt="image">
+                                    <a href="#" class="mr10 mb10">
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star-half-o color-yellow"></i>
+                                    </a>
+                                    <br>
+                                    <div class="strong mt10">John Boo</div>
+                                    Jan. 20 2016, 10:00 PM
+                                    <div class="">&nbsp;</div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
+                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
+                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
+                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
+                                    </p>
+                                </div>
+                                <!-- Review End -->
+
+                                <!-- Review Start -->
+                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
+                                    <img src="assets/img/other/photo-2.jpg" class="img-thumbnail pull-left mr20"
+                                         alt="image">
+                                    <a href="#" class="mr10 mb10">
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star color-yellow"></i>
+                                        <i class="fa fa-star-half-o color-yellow"></i>
+                                    </a>
+                                    <br>
+                                    <div class="strong mt10">John Boo</div>
+                                    Jan. 20 2016, 10:00 PM
+                                    <div class="">&nbsp;</div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
+                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
+                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
+                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
+                                    </p>
+                                </div>
+                                <!-- Review End -->
+
+                            </div>
+
+                        </div>
+                        <!-- tab content reviews end -->
+
+                        <!-- tab content other start -->
+                        <div id="shop_item_others" class="tab-pane fade">
+                            <h4>Описание товара</h4>
+                            <p>
+                               {{ product.description }}
+                            </p>
+                        </div>
+                        <!-- tab content other end -->
+
+                    </div><!-- tab content end-->
+                </div><!-- col-md end -->
+            </div><!-- row end -->
+
+
+            <!-- Related Products
+            ===================================== -->
+            <div class="row">
+                <div class="col-md-10">
+                    <h4 class="strong">Related Products</h4>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div id="owlSectionThreeItem">
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">-50%</div>
+                                <img src="assets/img/shop/img-shop-1.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Cool Man Jacket</h4>
+                                <span class="shop-item-price">$90.00</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <img src="assets/img/shop/img-shop-2.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Casual Jacket</h4>
+                                <span class="shop-item-price">$79.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">Sale</div>
+                                <img src="assets/img/shop/img-shop-3.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Summer Jacket</h4>
+                                <span class="shop-item-price">$85.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <img src="assets/img/shop/img-shop-4.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Man Jacket</h4>
+                                <span class="shop-item-price">$57.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">-50%</div>
+                                <img src="assets/img/shop/img-shop-1.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Cool Man Jacket</h4>
+                                <span class="shop-item-price">$90.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">-50%</div>
+                                <img src="assets/img/shop/img-shop-2.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Cool Man Jacket</h4>
+                                <span class="shop-item-price">$90.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">-50%</div>
+                                <img src="assets/img/shop/img-shop-3.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Cool Man Jacket</h4>
+                                <span class="shop-item-price">$90.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                        <!-- shop item start -->
+                        <div class="shop-item-container-out">
+                            <div class="shop-item-container-in">
+                                <div class="shop-label">-50%</div>
+                                <img src="assets/img/shop/img-shop-4.png" alt="shop item"
+                                     class="img-responsive center-block">
+                                <h4 class="shop-item-title">Cool Man Jacket</h4>
+                                <span class="shop-item-price">$90.00</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="#" class="add-to-cart">
+                                        Add to cart
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-xs-3">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop item end -->
+
+                    </div><!-- #owlShop end -->
+                </div><!-- col-md end -->
+            </div><!-- row end -->
+            <!-- Related Product End -->
+
+        </div>
+
+        {% include 'include/sidebar.html' %}
+
+
+    </div>
+
+</div><!-- shop details end -->
+
+
+{% endblock content %}

@@ -1,0 +1,115 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Shop Area
+===================================== -->
+<header class="pt100 pb100 parallax-window-2" data-parallax="scroll" data-speed="0.5"
+        data-image-src="{% static 'store/img/bg/promo.webp' %}" data-positionY="1000">
+    <div class="intro-body text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pt50">
+                    <h1 class="brand-heading font-montserrat text-uppercase color-light" data-in-effect="fadeInDown">
+                        Worldwide Clients</h1>
+                    <h4 class="brand-heading font-montserrat text-uppercase color-light alpha8"
+                        data-in-effect="fadeInDown">Trusted by World Class Companies</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section id="shop" class="bg-light pt25">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9 text-center">
+
+                <div class="row mt25 mb25 animated" data-animation="fadeInDown" data-animation-delay="100">
+                    <div class="col-md-2 col-sm-2 col-xs-2 pull-left">
+                        <ul class="list-inline">
+                            <li><a href="#" class="shop-layout pull-left"><i class="fa fa-th"></i></a></li>
+                            <li><a href="#" class="shop-layout pull-left"><i class="fa fa-align-justify"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7 col-sm-10 col-xs-10 pull-right">
+                        <form class="form-inline pull-left">
+                            <label>Short By:</label>
+                            <select class="form-control" id="sel1">
+                                <option>Name A - Z</option>
+                                <option>Name Z - A</option>
+                                <option>Model A - Z</option>
+                                <option>Model Z - A</option>
+                                <option>Highest Price</option>
+                                <option>Lowest Price</option>
+                                <option>Highest Rating</option>
+                                <option>Lowest Rating</option>
+                            </select>
+                        </form>
+                        <form class="form-inline pull-left ml25">
+                            <label>Show:</label>
+                            <select class="form-control" id="sel2">
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                <option>40</option>
+                                <option>50</option>
+                                <option>60</option>
+                                <option>70</option>
+                                <option>80</option>
+                                <option>90</option>
+                                <option>100</option>
+                            </select>
+                            <label>Items Per Page</label>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    {% for product in product_list %}
+                    <div class="col-md-6 col-sm-4 col-xs-4">
+                        <div class="shop-item-container-in">
+                            <div class="shop-label bg-pasific">-50%</div>
+                            <img src="{{ product.poster.url }}" alt="shop item"
+                                 class="img-responsive center-block">
+                            <a href="{{ product.get_absolute_url }}"><h4 class="shop-item-title">{{ product.title }}</h4></a>
+                                <span class="shop-item-price">{{ product.price }}сом</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-3">
+                                <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                    <i class="fa fa-heart"></i>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <a href="#" class="add-to-cart">
+                                    Add to cart
+                                </a>
+                            </div>
+                            <div class="col-sm-3 col-xs-3">
+                                <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                    <i class="fa fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+
+                <div class="row mb25 animated" data-animation="fadeInUp" data-animation-delay="700">
+                    <div class="col-md-12 text-center">
+                        {% include 'include/pagination.html' %}
+                    </div>
+                </div>
+            </div>
+            {% include 'include/sidebar.html' %}
+        </div>
+
+    </div>
+</section>
+
+
+
+{% endblock content %}
