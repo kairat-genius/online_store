@@ -1,53 +1,4 @@
 {% block footer %}
-<!-- Shopping Method
-===================================== -->
-<section id="shop-info" class="bg-grad-stellar">
-    <div class="container">
-        <div class="row pt50 pb30">
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="content-box content-box-center">
-                    <span class="icon-bike color-light"></span>
-                    <h5 class="color-light">Free Shpping</h5>
-                    <p class="color-light alpha7">Pellentesque ipsum erat, facilisis ut venenatis eu, sodales vel
-                        dolor.</p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="content-box content-box-center">
-                    <span class="icon-linegraph color-light"></span>
-                    <h5 class="color-light">Online Tracking</h5>
-                    <p class="color-light alpha7">Pellentesque ipsum erat, facilisis ut venenatis eu, sodales vel
-                        dolor.</p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="content-box content-box-center">
-                    <span class="icon-speedometer color-light"></span>
-                    <h5 class="color-light">Fast Delivery</h5>
-                    <p class="color-light alpha7">Pellentesque ipsum erat, facilisis ut venenatis eu, sodales vel
-                        dolor.</p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="content-box content-box-center">
-                    <span class="icon-refresh color-light"></span>
-                    <h5 class="color-light">Moneyback Guaranteed</h5>
-                    <p class="color-light alpha7">Pellentesque ipsum erat, facilisis ut venenatis eu, sodales vel
-                        dolor.</p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 
 <!-- footer Area
         ===================================== -->
@@ -58,7 +9,7 @@
 
                 <!-- footer about start -->
                 <div class="col-md-3 col-sm-12 col-xs-12">
-                    <h6 class="font-montserrat text-uppercase color-light">About Us</h6>
+                    <a href="{% url 'about' %}"><h6 class="font-montserrat text-uppercase color-light">About Us</h6></a>
                     <p class="color-light alpha7">Lorem ipsum dolor sit amet consectetur adipiscing elit morbi sagittis.
                         Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
                 </div>
@@ -71,31 +22,29 @@
                         <li><a href="#" class="color-light alpha7">Home</a></li>
                         <li><a href="#" class="color-light alpha7">About</a></li>
                         <li><a href="#" class="color-light alpha7">Service</a></li>
-                        <li><a href="#" class="color-light alpha7">Member</a></li>
+                        <li><a href="{% url 'delivery' %}" class="color-light alpha7">Delivery</a></li>
                     </ul>
                 </div>
                 <!-- footer menu one end -->
 
                 <!-- footer menu two start -->
                 <div class="col-md-2 col-sm-3 col-xs-4">
-                    <h6 class="font-montserrat text-uppercase color-light">Learn more</h6>
+                    <h6 class="font-montserrat text-uppercase color-light">Унать больше</h6>
                     <ul class="no-icon-list">
-                        <li><a href="#" class="color-light alpha7">Tour</a></li>
-                        <li><a href="#" class="color-light alpha7">Pricing</a></li>
-                        <li><a href="#" class="color-light alpha7">New Features</a></li>
-                        <li><a href="#" class="color-light alpha7">Payment</a></li>
+                        <li><a href="#" class="color-light alpha7">+996-707-81-75-93</a></li>
+                        <li>График работы <br>Пн-Пт: с 9:00 до 18:00<br> Сб: с 9:00 до 15:00<br>Вс: Выходной</li>
+                        <li><a href="#" class="color-light alpha7">stor12@list.ru</a></li>
                     </ul>
                 </div>
                 <!-- footer menu two end -->
 
                 <!-- footer menu three start -->
                 <div class="col-md-2 col-sm-3 col-xs-4">
-                    <h6 class="font-montserrat text-uppercase color-light">Support</h6>
+                    <h6 class="font-montserrat text-uppercase color-light">Помошь</h6>
                     <ul class="no-icon-list">
-                        <li><a href="#" class="color-light alpha7">FAQs</a></li>
-                        <li><a href="#" class="color-light alpha7">Knowledgebase</a></li>
-                        <li><a href="#" class="color-light alpha7">Forum</a></li>
-                        <li><a href="#" class="color-light alpha7">Contact Us</a></li>
+                        <li><a href="#" class="color-light alpha7">Часто задаваемые вопросы</a></li>
+                        <li><a href="#" class="color-light alpha7">Гарантия</a></li>
+                        <li><a href="{% url 'feedback' %}" class="color-light alpha7">Обратная связь</a></li>
                     </ul>
                 </div>
                 <!-- footer menu three end -->
@@ -123,7 +72,7 @@
 
                 <!-- copyright start -->
                 <div class="col-md-6 col-sm-6 col-xs-6 pull-left">
-                    <p>Copyright &copy;2016 <a href="#">Pasific Studio, LLC</a>. All rights reserved.</p>
+                    <p>Copyright &copy;2023 <a href="#">Pasific Studio, LLC</a>. All rights reserved.</p>
                 </div>
                 <!-- copyright end -->
 

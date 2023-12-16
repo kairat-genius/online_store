@@ -1,4 +1,4 @@
-{% load store_tag %}
+{% load mptt_tags store_tag %}
 <div id="sidebar" class="col-md-3 mt25 animated" data-animation="fadeInRight" data-animation-delay="250">
 
     <!-- Search
@@ -14,35 +14,6 @@
     </div>
     <!-- Sidebar Cart
     ===================================== -->
-    <div class="pr25 pl25 clearfix">
-        <h5 class="mt25">
-            Your Cart
-            <span class="heading-divider mt10"></span>
-        </h5>
-        <div class="shop-sidebar-cart">
-            <div class="sidebar-cart-container">
-                <img src="assets/img/shop/img-shop-thumb-1.png" alt="" class="img-responsive pull-left">
-                <h6><a href="#">Man Casual Jacket</a></h6>
-                <span class="sidebar-cart-price text-gray">1 x $90.00</span>
-                <span class="sidebar-cart-remove"><a href="#"><i class="fa fa-times-circle fa-fw"></i>Remove</a></span>
-            </div>
-            <div class="sidebar-cart-container">
-                <img src="assets/img/shop/img-shop-thumb-2.png" alt="" class="img-responsive pull-left">
-                <h6><a href="#">Man Casual Jacket</a></h6>
-                <span class="sidebar-cart-price text-gray">1 x $75.00</span>
-                <span class="sidebar-cart-remove"><a href="#"><i class="fa fa-times-circle fa-fw"></i>Remove</a></span>
-            </div>
-            <div class="sidebar-cart-container">
-                <img src="assets/img/shop/img-shop-thumb-3.png" alt="" class="img-responsive pull-left">
-                <h6><a href="#">Man Casual Jacket</a></h6>
-                <span class="sidebar-cart-price text-gray">$59.00</span>
-                <span class="sidebar-cart-remove"><a href="#"><i class="fa fa-times-circle fa-fw"></i>Remove</a></span>
-            </div>
-        </div>
-        <h5><span class="text-gray">Total Cart:</span> <span class="text-pasific">$224.00</span></h5>
-        <a class="button button-block button-pasific button-sm hover-ripple-out mt-30">View Cart<i
-                class="fa fa-shopping-basket fa-fw fa-1x"></i></a>
-    </div>
 
     <!-- Categories
     ===================================== -->
@@ -55,34 +26,34 @@
             {% if cat_selected == 0 %}
             <li class="selected">Все категории</li>
             {% else %}
-            <li><a href="{% url 'store_list' %}">Все категории</a></li>
+            <li><a href="{% url 'home' %}">Все категории</a></li>
             {% endif %}
 
-            {% for c in cats %}
-            {% if c.store__count > 0 %}
-            {% if c.pk == cat_selected %}
-            <li class="selected">{{c.name}}</li>
-            {% else %}
-            <li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
+
+            <ul>
+                {% get_list_category as list_category %}
+                {% for node in list_category %}
+                <li class="selected"><a href="{% url 'list' node.slug %}">{{ node.name }}</a></li>
+                {% endfor %}
+            </ul>
+
 
         </ul>
 
 
         <!-- Filter by Price
         ===================================== -->
-        <!--    <div class="pr25 pl25 clearfix">-->
-        <!--        <h5 class="mt25">-->
-        <!--            Filter by Price-->
-        <!--            <span class="heading-divider mt10"></span>-->
-        <!--        </h5>-->
-        <!--        <input type="text" id="shop-range-price" name="shop-range-price" value=""/>-->
-        <!--        <button type="submit" class="button button-block button-sm button-pasific mt10 hover-ripple-out">-->
-        <!--            Filter Now-->
-        <!--        </button>-->
-        <!--    </div>-->
+
+<!--            <div class="pr25 pl25 clearfix">-->
+<!--                <h5 class="mt25">-->
+<!--                    Filter by Price-->
+<!--                    <span class="heading-divider mt10"></span>-->
+<!--                </h5>-->
+<!--                <input type="text" id="shop-range-price" name="shop-range-price" value=""/>-->
+<!--                <button type="submit" class="button button-block button-sm button-pasific mt10 hover-ripple-out">-->
+<!--                    Filter Now-->
+<!--                </button>-->
+<!--            </div>-->
 
 
         <!-- Tags
@@ -93,10 +64,7 @@
                 <span class="heading-divider mt10"></span>
             </h5>
             <ul class="tag">
-                {% for c in Category %}
-                {{ c.name }}
 
-                {% endfor %}
             </ul>
 
         </div>
@@ -147,15 +115,16 @@
         <!--                <span class="sidebar-cart-remove">-->
         <!--                                        <a href="#">-->
         <!--                                            <i class="fa fa-star text-orange"></i>-->
-        <!--                                            <i class="fa fa-star text-orange"></i>-->
-        <!--                                            <i class="fa fa-star text-orange"></i>-->
-        <!--                                            <i class="fa fa-star text-orange"></i>-->
-        <!--                                            <i class="fa fa-star-half-o text-orange"></i>-->
-        <!--                                        </a>-->
-        <!--                                    </span>-->
-        <!--            </div>-->
+<!--                                                    <i class="fa fa-star text-orange"></i>-->
+<!--                                                    <i class="fa fa-star text-orange"></i>-->
+<!--                                                    <i class="fa fa-star text-orange"></i>-->
+<!--                                                    <i class="fa fa-star-half-o text-orange"></i>-->
+<!--                                                </a>-->
+<!--                                            </span>-->
+<!--                    </div>-->
 
-        <!--        </div>-->
+<!--                </div>-->
     </div>
-    {% get_last_store count=3 %}
 
+
+</div>

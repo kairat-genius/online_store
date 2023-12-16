@@ -1,7 +1,7 @@
 {% extends 'store/base.html' %}
 {% load static %}
 {% block content %}
-<header class="pt100 pb100 parallax-window-2" data-parallax="scroll" data-speed="0.5"
+<header class="pt100 pb100 parallax-window-2 mt70" data-parallax="scroll" data-speed="0.5"
         data-image-src="{% static 'store/img/bg/banner.jpg' %}" data-positionY="1000">
     <div class="intro-body text-center">
         <div class="container">
@@ -39,7 +39,7 @@
                             <a href="#" data-image="{{ image.image.url }}"
                                data-zoom-image="{{ image.image.url }}">
                                 <img src="{{ image.image.url }}" class="shop-item-detail-photo-thumbnail"
-                                 alt="photo">
+                                     alt="photo">
                             </a>
                             {% endfor %}
                         </div>
@@ -59,13 +59,13 @@
                         <!-- item No
                         ===================================== -->
                         <div class="shop-item-sku mt20 pt10 bt-dotted-1">
-                            Item No: <span class="color-black strong">{{ product.url }}</span>
+                            Item No: <span class="color-black strong">{{ product.id }}</span>
                         </div>
 
                         <!-- Item Availability
                         ===================================== -->
                         <div class="shop-item-available mt5">
-                            Availability: <span class="color-green strong">{{ product.available }}</span>
+                            Наличие: <span class="color-green strong">{{ product.available }}</span>
                         </div>
 
                         <!-- Item Price
@@ -221,105 +221,94 @@
                             </div>
                             <!-- Rating End -->
 
-                            <div class="row mt25">
+                            <div>
 
                                 <!-- Review Start -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
-                                    <img src="assets/img/other/photo-2.jpg" class="img-thumbnail pull-left mr20"
-                                         alt="image">
-                                    <a href="#" class="mr10 mb10">
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star-half-o color-yellow"></i>
-                                    </a>
-                                    <br>
-                                    <div class="strong mt10">John Boo</div>
-                                    Jan. 20 2016, 10:00 PM
-                                    <div class="">&nbsp;</div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
-                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
-                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
-                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
-                                    </p>
+                                    <div class="blog-post-comment-container">
+                                        <h5><i class="fa fa-comments-o mb25"></i>{{ product.reviews_set.count }}Comments
+                                        </h5>
+                                        {% for review in product.get_review %}
+                                        <div class="blog-post-comment">
+                                            {% if review.avatar %}
+                                            <img src="{{ review.avatar.url }}" class="img-circle"
+                                                 alt="image">
+                                            {% else %}
+                                            <img src="{% static 'store/img/other/photo-4.jpg' %}" class="img-circle"
+                                                 alt="image">
+                                            {% endif %}
+                                            <a href="#" class="mr10 mb10">
+                                                <i class="fa fa-star color-yellow"></i>
+                                                <i class="fa fa-star color-yellow"></i>
+                                                <i class="fa fa-star color-yellow"></i>
+                                                <i class="fa fa-star color-yellow"></i>
+                                                <i class="fa fa-star-half-o color-yellow"></i>
+                                            </a>
+                                            <br>
+                                            <span class="blog-post-comment-name">{{ review.name }}</span>{{ review.time_create }}
+                                            <a href="#formReview" class="pull-right text-gray"
+                                               onclick="addReview('{{ review.name }}', '{{ review.id }}')">
+                                                <i class="fa fa-comment"></i>Ответить
+                                            </a>
+                                            <p>
+                                                {{ review.text }}
+                                            </p>
+
+                                            {% for rew in review.reviews_set.all %}
+
+                                            <div class="blog-post-comment-reply">
+                                                {% if rew.avatar %}
+                                                <img src="{{ rew.avatar.url }}" class="img-circle"
+                                                     alt="image">
+                                                {% else %}
+                                                <img src="{% static 'store/img/other/photo-2.jpg' %}" class="img-circle"
+                                                     alt="image">
+                                                {% endif %}
+                                                <a href="#" class="mr10 mb10">
+                                                    <i class="fa fa-star color-yellow"></i>
+                                                    <i class="fa fa-star color-yellow"></i>
+                                                    <i class="fa fa-star color-yellow"></i>
+                                                    <i class="fa fa-star color-yellow"></i>
+                                                    <i class="fa fa-star-half-o color-yellow"></i>
+                                                </a>
+                                                <br>
+                                                <span class="blog-post-comment-name">{{ rew.name }}</span>{{ rew.time_create }}
+                                                <a href="#formReview" class="pull-right text-gray"
+                                                   onclick="addReview('{{ review.name }}', '{{ review.id }}')">
+                                                    <i class="fa fa-comment"></i>Ответить
+                                                </a>
+                                                <p>
+                                                    {{ rew.text }}
+                                                </p>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                    <div class="blog-post-leave-comment">
+                                        <h5><i class="fa fa-comment mt25 mb25"></i> Leave Comment</h5>
+                                        <form action="{% url 'add_review' pk=product.id %}" method="post" enctype="multipart/form-data"
+                                              id="formReview">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="parent" id="contactparent" value="">
+                                            {{ form.name }}
+                                            {{ form.email }}
+                                            {{ form.text }}
+                                            {{ form.avatar }}
+                                            <p>Вы пишете комментарий пользователю: {{ parent_user }}</p>
+                                            <input type="hidden" name="parent_id" value="{{ review.id }}">
+                                            <button class="button button-pasific button-sm center-block mb25">Leave
+                                                Comment
+                                            </button>
+                                        </form>
+
+                                    </div>
                                 </div>
                                 <!-- Review End -->
-
-                                <!-- Review Start -->
-                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
-                                    <img src="assets/img/other/photo-1.jpg" class="img-thumbnail pull-left mr20"
-                                         alt="image">
-                                    <a href="#" class="mr10 mb10">
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star-half-o color-yellow"></i>
-                                    </a>
-                                    <br>
-                                    <div class="strong mt10">John Boo</div>
-                                    Jan. 20 2016, 10:00 PM
-                                    <div class="">&nbsp;</div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
-                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
-                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
-                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
-                                    </p>
-                                </div>
-                                <!-- Review End -->
-
-                                <!-- Review Start -->
-                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
-                                    <img src="assets/img/other/photo-4.jpg" class="img-thumbnail pull-left mr20"
-                                         alt="image">
-                                    <a href="#" class="mr10 mb10">
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star-half-o color-yellow"></i>
-                                    </a>
-                                    <br>
-                                    <div class="strong mt10">John Boo</div>
-                                    Jan. 20 2016, 10:00 PM
-                                    <div class="">&nbsp;</div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
-                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
-                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
-                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
-                                    </p>
-                                </div>
-                                <!-- Review End -->
-
-                                <!-- Review Start -->
-                                <div class="col-md-12 col-sm-12 col-xs-12 bb-dotted-1 pt25">
-                                    <img src="assets/img/other/photo-2.jpg" class="img-thumbnail pull-left mr20"
-                                         alt="image">
-                                    <a href="#" class="mr10 mb10">
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star color-yellow"></i>
-                                        <i class="fa fa-star-half-o color-yellow"></i>
-                                    </a>
-                                    <br>
-                                    <div class="strong mt10">John Boo</div>
-                                    Jan. 20 2016, 10:00 PM
-                                    <div class="">&nbsp;</div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, libero,
-                                        temporibus quam eaque numquam debitis excepturi assumenda necessitatibus dolore
-                                        dolorum vero enim distinctio ipsa. Quod, dolorum, quidem eum quisquam facilis
-                                        nam molestias et voluptas omnis quibusdam dignissimos illum ullam.
-                                    </p>
-                                </div>
-                                <!-- Review End -->
-
                             </div>
+
 
                         </div>
                         <!-- tab content reviews end -->
@@ -328,7 +317,7 @@
                         <div id="shop_item_others" class="tab-pane fade">
                             <h4>Описание товара</h4>
                             <p>
-                               {{ product.description }}
+                                {{ product.description }}
                             </p>
                         </div>
                         <!-- tab content other end -->
@@ -361,7 +350,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip"
+                                       title="Add to wishlist">
                                         <i class="fa fa-heart"></i>
                                     </a>
                                 </div>
@@ -371,215 +361,8 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <img src="assets/img/shop/img-shop-2.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Casual Jacket</h4>
-                                <span class="shop-item-price">$79.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <div class="shop-label">Sale</div>
-                                <img src="assets/img/shop/img-shop-3.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Summer Jacket</h4>
-                                <span class="shop-item-price">$85.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <img src="assets/img/shop/img-shop-4.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Man Jacket</h4>
-                                <span class="shop-item-price">$57.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <div class="shop-label">-50%</div>
-                                <img src="assets/img/shop/img-shop-1.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Cool Man Jacket</h4>
-                                <span class="shop-item-price">$90.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <div class="shop-label">-50%</div>
-                                <img src="assets/img/shop/img-shop-2.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Cool Man Jacket</h4>
-                                <span class="shop-item-price">$90.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <div class="shop-label">-50%</div>
-                                <img src="assets/img/shop/img-shop-3.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Cool Man Jacket</h4>
-                                <span class="shop-item-price">$90.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
-                                        <i class="fa fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- shop item end -->
-
-                        <!-- shop item start -->
-                        <div class="shop-item-container-out">
-                            <div class="shop-item-container-in">
-                                <div class="shop-label">-50%</div>
-                                <img src="assets/img/shop/img-shop-4.png" alt="shop item"
-                                     class="img-responsive center-block">
-                                <h4 class="shop-item-title">Cool Man Jacket</h4>
-                                <span class="shop-item-price">$90.00</span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <a href="#" class="add-to-cart">
-                                        Add to cart
-                                    </a>
-                                </div>
-                                <div class="col-sm-3 col-xs-3">
-                                    <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                                    <a href="#" class="send-to-friend" data-toggle="tooltip"
+                                       title="Send to friend">
                                         <i class="fa fa-envelope"></i>
                                     </a>
                                 </div>
@@ -600,6 +383,98 @@
     </div>
 
 </div><!-- shop details end -->
+<script>
+    function addReview(name, id) {
+        document.getElementById("contactparent").value = id;
+        document.getElementById("contactcomment").innerText = `Вы пишете комментарий пользователю: ${name}, `;
+    }
 
+
+</script>
+<!--<script>-->
+<!--        function addReview(name, id) {-->
+<!--            document.getElementById("contactparent").value = id;-->
+<!--            document.getElementById("contactcomment").innerText = `${name}, `-->
+<!--        }-->
+
+<!--</script>-->
 
 {% endblock content %}
+<!--<div class="row">-->
+<!--    <div class="single-form-left">-->
+<!--        &lt;!&ndash; contact form grid &ndash;&gt;-->
+<!--        <div class="contact-single">-->
+<!--            <h3 class="editContent">-->
+<!--                <span class="sub-tittle editContent">{{ product.reviews_set.count }}</span>-->
+<!--                Оставить отзыв-->
+<!--            </h3>-->
+<!--            <form action="{% url 'add_review' movie.id %}" method="post" class="mt-4"-->
+<!--            >-->
+<!--                {% csrf_token %}-->
+<!--                <input type="hidden" name="parent" id="contactparent" value="">-->
+<!--                <div class="form-group editContent">-->
+<!--                    <label for="contactcomment" class="editContent">-->
+<!--                        Ваш комментарий *-->
+<!--                    </label>-->
+<!--                    {{ form.text }}-->
+<!--                </div>-->
+<!--                <div class="d-sm-flex">-->
+<!--                    <div class="col-sm-6 form-group p-0 editContent">-->
+<!--                        <label for="contactusername" class="editContent">-->
+<!--                            Имя *-->
+<!--                        </label>-->
+<!--                        {{ form.name }}-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-6 form-group ml-sm-3 editContent">-->
+<!--                        <label for="contactemail" class="editContent">-->
+<!--                            Email *-->
+<!--                        </label>-->
+<!--                        {{ form.email }}-->
+<!--                    </div>-->
+<!--                    {{ form.captcha }}-->
+<!--                </div>-->
+<!--                <button type="submit"-->
+<!--                        class="mt-3 btn btn-success btn-block py-3">-->
+<!--                    Отправить-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;  //contact form grid ends here &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+<!--{% for review in movie.get_review %}-->
+<!--<div class="media py-5">-->
+<!--    <img src="{% static 'images/te2.jpg' %}" class="mr-3 img-fluid" alt="image">-->
+<!--    <div class="media-body mt-4">-->
+<!--        <h5 class="mt-0 editContent">-->
+<!--            {{ review.name }}-->
+<!--        </h5>-->
+<!--        <p class="mt-2 editContent">-->
+<!--            {{ review.text }}-->
+<!--        </p>-->
+<!--        <a href="#formReview"-->
+<!--           onclick="addReview('{{ review.name }}', '{{ review.id }}')">Ответить</a>-->
+<!--        {% for rew in review.reviews_set.all %}-->
+<!--        <div class="media mt-5 editContent">-->
+<!--            <a class="pr-3" href="#">-->
+<!--                <img src="{% static 'images/te2.jpg' %}" class="img-fluid "-->
+<!--                     alt="image">-->
+<!--            </a>-->
+<!--            <div class="media-body">-->
+<!--                <h5 class="mt-0 editContent">{{ rew.name }}</h5>-->
+<!--                <p class="mt-2 editContent">{{ rew.text }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+<!--{% endfor %}-->
+<!--</div>-->
+<!--<script>-->
+<!--        function addReview(name, id) {-->
+<!--            document.getElementById("contactparent").value = id;-->
+<!--            document.getElementById("contactcomment").innerText = `${name}, `-->
+<!--        }-->
+
+
+<!--</script>-->

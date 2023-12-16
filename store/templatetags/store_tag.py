@@ -1,31 +1,23 @@
 from django import template
-from store.models import *
-
+from store.models import Category, Product
+from ..forms import *
 
 register = template.Library()
 
 
-@register.inclusion_tag('store/tags/last_store.html')
-def get_last_store(count=5):
-    store = Product.objects.order_by("id")[:count]
-    return {"last_store": store}
+def get_all_categories():
+    return Category.objects.all()
 
 
-@register.simple_tag(name='getcats')
-def get_categories(filter=None):
-    if not filter:
-        return Category.objects.all()
-    else:
-        return Category.objects.filter(pk=filter)
+@register.simple_tag()
+def get_list_category():
+    """Вывод всех категорий"""
+    return get_all_categories()
 
-@register.inclusion_tag('store/tags/list_category.html')
-def show_categories(sort=None, cat_selected=0):
-    if not sort:
-        cats = Category.objects.all()
-    else:
-        cats = Category.objects.order_by(sort)
 
-    return {"cats": cats, "cat_selected": cat_selected}
-
+@register.inclusion_tag('include/sidebar.html')
+def get_categories():
+    category = get_all_categories()
+    return {"list_category": category}
 
 

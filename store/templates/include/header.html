@@ -1,35 +1,46 @@
 {% load static %}
-{% load store_tag %}
+{% load mptt_tags store_tag %}
 {% block header %}
-<nav class="navbar navbar-pasific navbar-mp megamenu navbar-fixed-top bb-solid-1-red">
+
+<nav class="navbar navbar-pasific navbar-mp navbar-standart megamenu navbar-fixed-top  bb-solid-1-red"
+     style="border-bottom:1px solid #fff;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">
+            <a class="navbar-brand page-scroll" href="{% url 'home' %}">
                 <img src="{% static 'store/img/logo/png-transparent.png' %}" alt="logo">
-                store
+                Store
             </a>
         </div>
 
         <div class="navbar-collapse collapse navbar-main-collapse">
             <ul class="nav navbar-nav">
-                <li class="dropdown megamenu-fw has-dropdown-menu"><a href="/" data-toggle="dropdown"
-                                                                      class="dropdown-toggle color-light">Home </a>
-                </li>
-
-                <li class="dropdown megamenu-fw"><a href="#" data-toggle="dropdown" class="dropdown-toggle color-light">Contact </a>
-                </li>
-
-                <li class="dropdown"><a href="/store" data-toggle="dropdown"
-                                        class="dropdown-toggle color-light">Категории </a>
+                <li class="dropdown"><a href="#" data-toggle="dropdown"
+                                        class="dropdown-toggle color-light">Категории</a>
                     <ul class="dropdown-menu" role="menu">
-
+                        {% get_list_category as list_category %}
+                        {% for node in list_category %}
+                        <li><a href="{% url 'list' node.slug %}"><i class="fa fa-spinner"></i>{{ node.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
-                <li><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search fa-fw"></i></a>
+
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle color-light">Услуги</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'about' %}"><i class="fa fa-spinner"></i>О нас</a></li>
+                        <li><a href=""><i class="fa fa-spinner"></i>Контакты</a></li>
+                        <li><a href="{% url 'feedback' %}"><i class="fa fa-spinner"></i>Обратная связь</a></li>
+                        <li><a href="{% url 'delivery' %}"><i class="fa fa-spinner"></i>Доставка</a></li>
+                        <li><a href="{% url 'answer' %}"><i class="fa fa-spinner"></i>Часто задаваемые вопросы</a></li>
+                    </ul>
                 </li>
+
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle color-light">Shop </a>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#searchModal"><i
+                        class="fa fa-search fa-fw color-pasific"></i></a></li>
 
             </ul>
 
@@ -46,8 +57,8 @@
                 <h5 class="modal-title text-center"><i class="fa fa-search fa-fw"></i> Search here</h5>
             </div>
             <div class="modal-body">
-                <form action="#" class="inline-form">
-                    <input type="text" class="modal-search-input" autofocus>
+                <form action="{% url 'search' %}" class="inline-form">
+                    <input type="search" class="modal-search-input" autofocus name="q" id="searchshop" required="">
                 </form>
             </div>
             <div class="modal-footer bg-gray">

@@ -1,0 +1,40 @@
+<div class="row">
+
+    {% for product in product_list %}
+    <div class="col-md-4 col-sm-4 col-xs-4">
+        <div class="shop-item-container-in">
+            <div class="shop-label bg-pasific">-50%</div>
+            <!--            <img src="{{ product.poster.url }}" alt="shop item" class="img-responsive center-block">-->
+            <div class="gallery2 center-block"><img src="{{ product.poster.url }}" alt="shop item" class="ramka center-block">
+            </div>
+            <a href="{{ product.get_absolute_url }}"><h4 class="shop-item-title">{{ product.title }}</h4></a>
+            <span class="shop-item-price">{{ product.price }}сом</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 col-xs-3">
+                <a href="#" class="add-to-wishlist" data-toggle="tooltip" title="Add to wishlist">
+                    <i class="fa fa-heart"></i>
+                </a>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                <a href="#" class="add-to-cart">
+                    Add to cart
+                </a>
+            </div>
+            <div class="col-sm-3 col-xs-3">
+                <a href="#" class="send-to-friend" data-toggle="tooltip" title="Send to friend">
+                    <i class="fa fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="row mb25 animated" data-animation-delay="700">
+        <div class="col-md-12 text-center">
+            {% include 'include/pagination.html' %}
+        </div>
+    </div>
+
+
+</div>
+

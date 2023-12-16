@@ -1,0 +1,115 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'help_services/tags/header.html' %}
+<div class="pt100 pb100 bg-grad-mojito">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 pt50 text-center">
+                <h1 class="brand-heading font-montserrat text-uppercase color-light" data-in-effect="fadeInDown">
+                    ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ.</h1>
+            </div>
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <label class="sr-only" for="inputHelpBlock">Input with help text</label>
+                <form class="form-horizontal" method="post">
+                    {% csrf_token %}
+                    {{ form.title }}
+                    <br>
+                    <button class="button-3d button-pasific button-lg hover-ripple-out animated"
+                            data-animation="fadeInUp"
+                            data-animation-delay="1200">ОТПРАВИТЬ ВОПРОС
+                    </button>
+                </form>
+                <p class="intro-text color-light text-open-sans text-uppercase mt25" data-in-effect="swing">
+                    НЕТ ОТВЕТА. ПОЖАЛУЙСТА, ПОПРОБУЙТЕ ОТПРАВИТЬ ВОПРОС.<br><br>
+
+                </p>
+            </div>
+        </div>
+
+        <!--        <div class="row mt35">-->
+        <!--            <div class="col-md-6 col-sm-6 col-xs-6">-->
+        <!--                <div class="panel-group" id="accordion_left">-->
+        <!--                    {% for answer in answers|slice:":5" %}-->
+        <!--                    <div class="panel">-->
+        <!--                        <div class="panel-heading">-->
+        <!--                            <a href="#left-collapse{{ forloop.counter }}"-->
+        <!--                               class="collapsed accordian-toggle-chevron-left" data-toggle="collapse"-->
+        <!--                               data-parent="#accordion_left">{{ answer.title }}</a>-->
+        <!--                        </div>-->
+        <!--                        <div id="left-collapse{{ forloop.counter }}"-->
+        <!--                             class="panel-collapse {% if forloop.first %}in active{% else %}collapse{% endif %}">-->
+        <!--                            <div class="panel-body">-->
+        <!--                                {{ answer.text }}-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    {% endfor %}-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="col-md-6 col-sm-6 col-xs-6">-->
+        <!--                <div class="panel-group" id="accordion_right">-->
+        <!--                    {% for answer in answers|slice:"5:" %}-->
+        <!--                    <div class="panel">-->
+        <!--                        <div class="panel-heading">-->
+        <!--                            <a href="#right-collapse{{ forloop.counter }}"-->
+        <!--                               class="collapsed accordian-toggle-chevron-left" data-toggle="collapse"-->
+        <!--                               data-parent="#accordion_right">{{ answer.title }}</a>-->
+        <!--                        </div>-->
+        <!--                        <div id="right-collapse{{ forloop.counter }}"-->
+        <!--                             class="panel-collapse {% if forloop.first %}in active{% else %}collapse{% endif %}">-->
+        <!--                            <div class="panel-body">-->
+        <!--                                {{ answer.text }}-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    {% endfor %}-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <div class="row mt35">
+    <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="panel-group" id="accordion_left">
+            {% for answer in answers %}
+            {% if forloop.counter|divisibleby:2 %}
+            <div class="panel">
+                <div class="panel-heading">
+                    <a href="#left-collapse{{ forloop.counter }}" class="collapsed accordian-toggle-chevron-left" data-toggle="collapse" data-parent="#accordion_left">{{ answer.title }}</a>
+                </div>
+                <div id="left-collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {{ answer.text }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="panel-group" id="accordion_right">
+            {% for answer in answers %}
+            {% if not forloop.counter|divisibleby:2 %}
+            <div class="panel">
+                <div class="panel-heading">
+                    <a href="#right-collapse{{ forloop.counter }}" class="collapsed accordian-toggle-chevron-left" data-toggle="collapse" data-parent="#accordion_right">{{ answer.title }}</a>
+                </div>
+                <div id="right-collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {{ answer.text }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

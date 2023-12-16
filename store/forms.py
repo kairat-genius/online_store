@@ -1,19 +1,22 @@
 from django import forms
 
-
 from .models import Reviews, Rating, RatingStar
+
 
 class ReviewForm(forms.ModelForm):
     """Формы отзывов"""
 
     class Meta:
         model = Reviews
-        fields = ("name", "email", "text")
+        fields = ("name", "email", "text", 'avatar')
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control border"}),
-            "email": forms.EmailInput(attrs={"class": "form-control border"}),
-            "text": forms.Textarea(attrs={"class": "form-control border"}),
+            "name": forms.TextInput(attrs={"class": "blog-leave-comment-input", "placeholder": "name"}),
+            "email": forms.EmailInput(attrs={"class": "blog-leave-comment-input", "placeholder": "email"}),
+            "text": forms.Textarea(attrs={"class": "blog-leave-comment-textarea", "placeholder": "message"}),
+
+
         }
+
 
 class RatingForm(forms.ModelForm):
     """Форма добавления рейтинга"""
@@ -24,3 +27,16 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ("star",)
+
+
+class ProductFilterForm(forms.Form):
+    price_min = forms.IntegerField(
+        label="Минимальная цена",
+        required=False,
+        widget=forms.TextInput(attrs={"value": "2500", "class": "input-min", "type": "number"})
+    )
+    price_max = forms.IntegerField(
+        label="Минимальная цена",
+        required=False,
+        widget=forms.TextInput(attrs={"value": "7500", "class": "input-max", "type": "number"})
+    )

@@ -46,7 +46,7 @@ class ProductShotsInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Товары"""
-    list_display = ("title", "category", "url", "draft", "available")
+    list_display = ("title", "category", "slug", "draft", "available")
     list_filter = ("category",)
     search_fields = ("title", "category__name")
     inlines = [ProductShotsInline, ReviewInline]
@@ -55,6 +55,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ("draft",)
     actions = ["publish", "unpublish"]
     readonly_fields = ("get_image",)
+    prepopulated_fields = {'slug': ('title',)}
 
     fieldsets = (
         (None, {
@@ -64,7 +65,7 @@ class ProductAdmin(admin.ModelAdmin):
             "fields": ("characteristic", "description", "poster")
         }),
         ("Options", {
-            "fields": (("url", "draft", "available", "category"),)
+            "fields": (("slug", "draft", "available", "category"),)
         }),
     )
 
@@ -101,8 +102,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Reviews)
 class ReviewAdmin(admin.ModelAdmin):
-    """Отзывы к фильму"""
-    list_display = ("name", "email", "parent", "product", "id")
+    """Отзывы"""
+    list_display = ("name", "email", "parent", "product", "id", "time_create", "avatar")
     readonly_fields = ("name", "email")
 
 

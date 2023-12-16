@@ -1,0 +1,34 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Shop Area
+===================================== -->
+<header class="pt100 pb100 parallax-window-2 mt70" data-parallax="scroll" data-speed="0.5"
+        data-image-src="{% static 'store/img/bg/promo.webp' %}" data-positionY="1000">
+    <div class="intro-body text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pt50">
+                    <h1 class="brand-heading font-montserrat text-uppercase color-light" data-in-effect="fadeInDown">
+                        Worldwide Clients</h1>
+                    <h4 class="brand-heading font-montserrat text-uppercase color-light alpha8"
+                        data-in-effect="fadeInDown">Trusted by World Class Companies</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section id="shop" class="bg-light pt25">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9 text-center">
+                {% include 'store/tags/filter.html' %}
+                {% include 'store/tags/list.html' %}
+
+            </div>
+            {% include 'include/sidebar.html' %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+from PIL import Image
 
 class Category(models.Model):
     """категория"""
@@ -9,10 +10,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-
-    def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug': self.slug})
 
     class Meta:
         verbose_name = 'Категория'
@@ -43,14 +40,14 @@ class Product(models.Model):
         Category, verbose_name="Категория", on_delete=models.PROTECT)
 
     available = models.ForeignKey(Available, verbose_name='Наличие товара', on_delete=models.SET_NULL, null=True)
-    url = models.SlugField(max_length=130, unique=True)
+    slug = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Черновик", default=False)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("store_detail", kwargs={"slug": self.url})
+        return reverse("store_detail", kwargs={"slug": self.category.slug, "post_slug": self.slug})
 
 
     def get_review(self):
@@ -59,6 +56,8 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+        ordering = ['price']
+
 
 
 class ProductShots(models.Model):
@@ -107,6 +106,19 @@ class Reviews(models.Model):
     email = models.EmailField()
     name = models.CharField("Имя", max_length=100)
     text = models.TextField("Сообщение", max_length=5000)
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+
+
+    # Добавляем метод для обработки изображения
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.avatar:
+            max_size = (60, 60)
+            image = Image.open(self.avatar.path)
+            image.thumbnail(max_size)
+            image.save(self.avatar.path)
     parent = models.ForeignKey(
         'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
     )
@@ -118,3 +130,5 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+
+

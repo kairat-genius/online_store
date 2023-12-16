@@ -1,0 +1,92 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'help_services/tags/header.html' %}
+<div id="contact" class="pt100 pb100 bg-grad-day-tripper">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="row">
+
+                    <!-- title start -->
+                    <div class="col-md-12 mb50">
+                        <h1 class="font-size-normal color-light">
+                            <small class="color-light">Contact Us</small>
+                            Drop Us a Message
+                        </h1>
+                        <h5 class="color-light">Please feel free to say anything to us. Our staff will reply any message<br>as
+                            soon as possible.</h5>
+                    </div>
+                    <!-- title end -->
+
+                    <!-- contact info start -->
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <span class="icon-map color-light el-icon2x"></span>
+                        <h5 class="color-light"><strong>Address</strong></h5>
+                        <p class="color-light">Address Business 123 London, UK.</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <span class="icon-megaphone color-light el-icon2x"></span>
+                        <h5 class="color-light"><strong>Phone</strong></h5>
+                        <p class="color-light">123-456-789</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <span class="icon-envelope color-light el-icon2x"></span>
+                        <h5 class="color-light"><strong>Email</strong></h5>
+                        <p class="color-light">email@domain.com</p>
+                    </div>
+                    <!-- contact info end -->
+
+                </div><!-- row left end -->
+            </div><!-- col left end -->
+
+            <div class="col-md-6">
+                <div class="contact contact-us-one">
+                    <div class="col-sm-12 col-xs-12 text-center mb20">
+                        <h4 class="pb25 bb-solid-1 text-uppercase">
+                            Get in Touch
+                            <small class="text-lowercase">Please complete the form and we will get back to you.</small>
+                        </h4>
+                    </div>
+                    <form method="post">
+                          {% csrf_token %}
+
+                        <!-- fullname start -->
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            {{ form.name }}
+                        </div>
+                        <!-- fullname end -->
+
+                        <!-- email start -->
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                           {{ form.email }}
+                        </div>
+                        <!-- email end -->
+
+
+                        <!-- textarea start -->
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            {{ form.content }}
+                        </div>
+                        <!-- textarea end -->
+
+                        <!-- button start -->
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" name="sendMessage" id="sendMessage"
+                                    class="button button-md button-block button-grad-day-tripper">Send Message
+                            </button>
+                        </div>
+                        <!-- button end -->
+                    </form>
+                </div><!-- div contact end -->
+            </div><!-- col end -->
+
+        </div><!-- row end -->
+    </div><!-- container end -->
+</div><!-- section contact end -->
+
+{% endblock content %}

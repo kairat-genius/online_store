@@ -1,12 +1,21 @@
-
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.ProductView.as_view(), name='store_list'),
-    path('filter/', views.FilterProductView.as_view(), name='filter'),
+    path('', views.HomeView.as_view(), name='home'),
     path('search/', views.Search.as_view(), name='search'),
-    path("json-filter/", views.JsonFilterMoviesView.as_view(), name='json_filter'),
-    path('<slug:slug>/', views.ProductDetailView.as_view(), name='store_detail'),
-    path('<slug:cat_slug>/', views.CategoryView.as_view(), name='category')
+    path('info/', include('help_services.urls')),
+    path("review/<int:pk>/", views.AddReView.as_view(), name="add_review"),
+
+    path('<slug:slug>/', views.ProductView.as_view(), name='list'),
+    path('<slug:slug>/<slug:post_slug>/', views.ProductDetailView.as_view(), name='store_detail'),
+
+
+
+    # path('comment/<int:pk>/', views.CreateComment.as_view(), name="create_comment"),
+    # path('<slug:slug>/<slug:post_slug>/', views.PostDetailView.as_view(), name="post_single"),
+    # path('<slug:slug>/', views.PostListView.as_view(), name="post_list"),
+    # # path('', cache_page(60 * 15)(views.HomeView.as_view()), name='home'),
+    # path('', views.HomeView.as_view(), name='home'),
+
 ]

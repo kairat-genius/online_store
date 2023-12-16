@@ -1,0 +1,46 @@
+
+{% load store_tag %}
+<div class="row mt25 mb25 animated" data-animation="fadeInDown" data-animation-delay="100">
+    <div class="pull-left">
+
+        <form class="wrappers pull-left" method="get">
+            <p>Ценовой диапазон</p>
+            <div class="price-input">
+                <div class="field">
+                    <span>Min</span>
+                    {{ filter_form.price_min }}
+                </div>
+                <div class="separator">-</div>
+                <div class="field">
+                    <span>Max</span>
+                    {{ filter_form.price_max }}
+                </div>
+            </div>
+            <div class="slider">
+                <div class="progress"></div>
+            </div>
+            <div class="range-input">
+                <input type="range" class="range-min" min="0" max="100000" value="2500" step="100">
+                <input type="range" class="range-max" min="0" max="100000" value="7500" step="100">
+            </div>
+            <button type="submit" class="button button-block button-sm button-pasific mt10 hover-ripple-out">Применить</button>
+
+        </form>
+        <form class="form-inline pull-right ml25">
+            <label>Show:</label>
+            <select class="form-control" id="sel2">
+                <option>10</option>
+                <option>20</option>
+                <option>30</option>
+                <option>40</option>
+                <option>50</option>
+                <option>60</option>
+                <option>70</option>
+                <option>80</option>
+                <option>90</option>
+                <option>100</option>
+            </select>
+            <label>Items Per Page</label>
+        </form>
+    </div>
+</div>

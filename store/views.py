@@ -1,120 +1,191 @@
 from django.db.models import Q
-from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-
-from .forms import RatingForm, ReviewForm
-from .models import Category, Rating, Reviews, Product
-from django.core.cache import cache
-from django.db.models import Count
-
-# class Category:
-#     """Категория"""
-#
-#     def get_category(self):
-#         return Category.objects.all()
-#
-#     paginate_by = 1
+from django.views.generic import ListView, DetailView, View
+from .models import Product
+from .forms import *
+from django.shortcuts import redirect
+from PIL import Image
 
 
-class DataMixin:
-
-    def get_user_context(self, **kwargs):
-        context = kwargs
-        cats = cache.get('cats')
-        if not cats:
-            cats = Category.objects.annotate(Count('tests'))
-            cache.set('cats', cats, 60)
-        context['cats'] = cats
-        if 'cat_selected' not in context:
-            context['cat_selected'] = 0
-        return context
-
-class CategoryView(DataMixin, ListView):
+class HomeView(ListView):
+    """ОБщий список товаров"""
     model = Product
-    template_name = 'store/store_list.html'
-    context_object_name = 'store_list'
-    allow_empty = False
+    paginate_by = 9
+    template_name = "store/store_category_list.html"
 
     def get_queryset(self):
-        return Product.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('category')
+        # Получаем слаг категории из URL
+        category_slug = self.kwargs.get("slug")
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c = Category.objects.get(slug=self.kwargs['cat_slug'])
-        c_def = self.get_user_context(title='Категория - ' + str(c.name),
-                                      cat_selected=c.pk)
-        return context | c_def
+        # Получаем параметры фильтрации из GET-параметров запроса
+        price_min = self.request.GET.get("price_min")
+        price_max = self.request.GET.get("price_max")
+        # Начинаем с базового запроса к базе данных для получения недоработанных товаров в указанной категории
+        queryset = Product.objects.filter(draft=False)
 
+        # Применяем фильтры на основе параметров
+        if price_min:
+            queryset = queryset.filter(price__gte=price_min)
+        if price_max:
+            queryset = queryset.filter(price__lte=price_max)
 
-def test(request):
-    return render(request, 'store/index.html')
-
-
-
-class ProductView(Category, ListView):
-    """Список Товаров"""
-    model = Product
-    queryset = Product.objects.filter(draft=False)
-    paginate_by = 4
-    template_name = "store/store_list.html"
-
-
-class ProductDetailView(Category, DetailView):
-    """описание Товаров"""
-    model = Product
-    queryset = Product.objects.filter(draft=False)
-    slug_field = "url"
-    template_name = "store/store_detail.html"
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["star_form"] = RatingForm()
-        context["form"] = ReviewForm()
+
+        # Добавляем форму фильтрации в контекст
+        context['filter_form'] = ProductFilterForm(self.request.GET)
+
         return context
 
 
-class FilterProductView(Category, ListView):
-    """Фильтр Товаров"""
-    paginate_by = 4
-    template_name = 'store/store_list.html'
+class ProductView(ListView):
+    """Список товаров по категорий"""
+    model = Product
+    template_name = "store/store_category_list.html"
+    paginate_by = 10  # Количество товаров на странице (пагинация)
 
     def get_queryset(self):
-        queryset = Product.objects.filter(
-            Q(category__in=self.request.GET.getlist("category"))
-        ).distinct()
+        # Получаем слаг категории из URL
+        category_slug = self.kwargs.get("slug")
+
+        # Получаем параметры фильтрации из GET-параметров запроса
+        price_min = self.request.GET.get("price_min")
+        price_max = self.request.GET.get("price_max")
+        # Начинаем с базового запроса к базе данных для получения недоработанных товаров в указанной категории
+        queryset = Product.objects.filter(draft=False, category__slug=category_slug).select_related('category')
+
+        # Применяем фильтры на основе параметров
+        if price_min:
+            queryset = queryset.filter(price__gte=price_min)
+        if price_max:
+            queryset = queryset.filter(price__lte=price_max)
+
         return queryset
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["category"] = ''.join([f"category={x}&" for x in self.request.GET.getlist("category")])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Добавляем форму фильтрации в контекст
+        context['filter_form'] = ProductFilterForm(self.request.GET)
+
+        return context
+
+    # def get_queryset(self):
+    #     return Product.objects.filter(draft=False, category__slug=self.kwargs.get("slug")).select_related('category')
+
+
+class ProductDetailView(DetailView):
+    """описание Товаров"""
+    model = Product
+    template_name = "store/store_detail.html"
+    slug_url_kwarg = 'post_slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Добавляем форму фильтрации в контекст
+        context['form'] = ReviewForm(self.request.GET)
+
         return context
 
 
-class JsonFilterMoviesView(ListView):
-    """Фильтр товаров в json"""
-    template_name = 'store/store_list.html'
-
-    def get_queryset(self):
-        queryset = Product.objects.filter(
-            Q(genres__in=self.request.GET.getlist("category"))
-        ).distinct().values("title", "url", "poster")
-        return queryset
-
-    def get(self, request, *args, **kwargs):
-        queryset = list(self.get_queryset())
-        return JsonResponse({"store": queryset}, safe=False)
-
-
-class Search(Category, ListView):
+class Search(ListView):
     """Поиск ТОВАРОВ"""
-
-    template_name = "store/store_list.html"
+    template_name = "store/store_category_list.html"
 
     def get_queryset(self, ):
-        return Product.objects.filter(title__iregex=self.request.GET.get("q"))
+        return Product.objects.filter(
+            Q(title__iregex=self.request.GET.get("q"))
+            |
+            Q(description__iregex=self.request.GET.get("q"))
+        )
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["q"] = f'q={self.request.GET.get("q")}&'
+        context["q"] = self.request.GET.get("q")
         return context
+
+
+class AddReView(View):
+    """Добавление отзыва"""
+
+    template_name = "store/store_detail.html"
+
+    # def post(self, request, pk):
+    #     form = ReviewForm(request.POST)
+    #     product = Product.objects.get(id=pk)
+    #
+    #     if form.is_valid():
+    #         review = form.save(commit=False)
+    #
+    #         # Получаем parent_id из данных POST
+    #         parent_id = request.POST.get("parent", None)
+    #
+    #         if parent_id:
+    #             try:
+    #                 parent_review = Reviews.objects.get(id=int(parent_id))
+    #                 review.parent = parent_review
+    #             except Reviews.DoesNotExist:
+    #                 pass  # Обработка случая, когда отзыв с указанным parent_id не существует
+    #
+    #         # Связываем отзыв с продуктом и сохраняем его в базе данных
+    #         review.product = product
+    #         review.save()
+    #
+    #     return redirect(product.get_absolute_url())
+
+    def post(self, request, pk):
+        form = ReviewForm(request.POST, request.FILES)
+        product = Product.objects.get(id=pk)
+        parent_user = None  # Инициализируем переменную для имени пользователя
+
+        if form.is_valid():
+            review = form.save(commit=False)
+
+            # Получаем parent_id из данных POST
+            parent_id = request.POST.get("parent", None)
+
+            if parent_id:
+                try:
+                    parent_review = Reviews.objects.get(id=int(parent_id))
+                    review.parent = parent_review
+                    parent_user = parent_review.name  # Получаем имя пользователя
+                except Reviews.DoesNotExist:
+                    pass  # Обработка случая, когда отзыв с указанным parent_id не существует
+
+            # Связываем отзыв с продуктом и обновляем текст комментария
+            review.product = product
+            review.text = f"{parent_user}, {review.text}"  # Добавляем имя пользователя в текст комментария
+            review.save()
+
+            if review.avatar:
+                max_size = (60, 60)
+                image = Image.open(review.avatar.path)
+                image.thumbnail(max_size)
+                image.save(review.avatar.path)
+
+        return render(request, self.template_name, {'form': form, 'parent_user': parent_user, 'product': product})
+
+    # def post(self, request, pk):
+    #     form = ReviewForm(request.POST)
+    #     product = Product.objects.get(id=pk)
+    #
+    #     if form.is_valid():
+    #         review = form.save(commit=False)
+    #         review.product = product
+    #
+    #         # Получаем parent_id из данных POST
+    #         parent_id = request.POST.get("parent_id")
+    #
+    #         if parent_id:
+    #             try:
+    #                 parent_review = Reviews.objects.get(id=int(parent_id))
+    #                 review.parent = parent_review
+    #             except Reviews.DoesNotExist:
+    #                 pass  # Обработка случая, когда отзыв с указанным parent_id не существует
+    #
+    #         review.save()
+    #
+    #     return redirect(product.get_absolute_url())
